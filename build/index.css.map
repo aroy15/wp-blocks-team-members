@@ -1,0 +1,1 @@
+{"version":3,"file":"index.css","mappings":";;;AAAA;EACC;AACD,C","sources":["webpack://team-members/./src/editor.scss"],"sourcesContent":[".wp-block-block-course-team-members-block {\r\n\tborder: 1px dotted rgb(250, 8, 8);\r\n}\r\n"],"names":[],"sourceRoot":""}
