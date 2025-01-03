@@ -3,10 +3,8 @@ import './editor.scss';
 
 export default function Edit() {
 	return (
-		<div {...useBlockProps()}>
-			<InnerBlocks
-				allowedBlocks={['core/image']}
-			/>
+		<div { ...useBlockProps() }>
+			<InnerBlocks allowedBlocks={ [ 'core/image' ] } />
 		</div>
 	);
 }

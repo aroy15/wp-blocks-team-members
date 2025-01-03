@@ -7,11 +7,7 @@
 	"category": "media",
 	"icon": "admin-users",
 	"description": "A team members grid block.",
-	"keywords": [
-		"team",
-		"members",
-		"grid"
-	],
+	"keywords": [ "team", "members", "grid" ],
 	"supports": {
 		"html": false
 	},
