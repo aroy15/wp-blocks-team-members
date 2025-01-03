@@ -11,7 +11,7 @@ registerBlockType( 'block-course/team-member', {
 	parent: [ 'block-course/team-members-block' ],
 	supports: {
 		html: false,
-		reusable: false
+		reusable: false,
 	},
 	attributes: {
 		name: {
