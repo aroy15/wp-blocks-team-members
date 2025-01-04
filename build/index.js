@@ -24,7 +24,11 @@ function Edit() {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useBlockProps)(),
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InnerBlocks, {
-      allowedBlocks: ['block-course/team-member']
+      allowedBlocks: ['block-course/team-member'],
+      template: [['block-course/team-member'],
+      // can be passed default value as well like { name: 'John Doe', bio: 'Lorem ipsum' } as second argument of the each block
+      ['block-course/team-member'], ['block-course/team-member']]
+      //templateLock="all" // using "all" can't add, remove and sorting blocks and using "insert" can't add and remove blocks just sorting is allowed
     })
   });
 }
