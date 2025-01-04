@@ -1,4 +1,8 @@
-import { useBlockProps, InnerBlocks, InspectorControls } from '@wordpress/block-editor';
+import {
+	useBlockProps,
+	InnerBlocks,
+	InspectorControls,
+} from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { PanelBody, RangeControl } from '@wordpress/components';
 import metadata from './block.json';
@@ -6,12 +10,15 @@ import './editor.scss';
 
 export default function Edit( { attributes, setAttributes } ) {
 	const { columns } = attributes;
-	const onChangeColumns = newColumns => setAttributes( { columns: newColumns } );
+	const onChangeColumns = ( newColumns ) =>
+		setAttributes( { columns: newColumns } );
 
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody title={ __( 'Members Settings', metadata.textdomain ) }>
+				<PanelBody
+					title={ __( 'Members Settings', metadata.textdomain ) }
+				>
 					<RangeControl
 						label={ __( 'Number of Columns', metadata.textdomain ) }
 						value={ columns }
@@ -21,9 +28,11 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 				</PanelBody>
 			</InspectorControls>
-			<div { ...useBlockProps({
-				className: `has-${columns}-columns`,
-			}) }>			
+			<div
+				{ ...useBlockProps( {
+					className: `has-${ columns }-columns`,
+				} ) }
+			>
 				<InnerBlocks
 					allowedBlocks={ [ 'block-course/team-member' ] }
 					template={ [
