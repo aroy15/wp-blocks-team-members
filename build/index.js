@@ -184,6 +184,13 @@ function Edit({
       alt: image?.alt
     });
   };
+  const onSelectURL = newURL => {
+    setAttributes({
+      url: newURL,
+      id: undefined,
+      alt: ''
+    });
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useBlockProps)(),
     children: [url && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
@@ -195,7 +202,8 @@ function Edit({
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.MediaPlaceholder, {
       icon: "admin-users",
       onSelect: onSelectImage,
-      onSelectURL: () => {},
+      onSelectURL: onSelectURL,
+      onError: () => {},
       accept: "image/*",
       allowedTypes: ['image'],
       disableMediaButtons: url
