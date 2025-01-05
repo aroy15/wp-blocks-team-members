@@ -1,3 +1,48 @@
 .wp-block-block-course-team-members-block {
-	border: 1px dotted rgb(250, 8, 8);
+	display: block;
+	display: flex;
+	flex-wrap: wrap;
+	margin-left: -10px !important;
+	margin-right: -10px !important;
+
+	@for $i from 1 through 6 {
+		&.has-#{$i}-columns {
+
+			> [data-type="block-course/team-member"] {
+				width: calc(100% / #{$i} - 20px);
+			}
+
+			.block-list-appender {
+				align-self: stretch;
+				width: calc(100% / #{$i} - 20px);
+				margin: 10px;
+				border: 1px dotted #000;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				min-height: 70px;
+				position: initial;
+			}
+		}
+	}
+
+	> [data-type="block-course/team-member"] {
+		max-width: initial;
+		margin: 10px;
+
+		h4 {
+			color: #222;
+			font-size: 22px;
+			font-weight: 700;
+			margin: 0;
+		}
+
+		p {
+			color: #565656;
+			font-size: 16px;
+			font-weight: 300;
+			margin-bottom: 5px;
+			margin-top: 5px;
+		}
+	}
 }

@@ -1,6 +1,6 @@
 import {
 	useBlockProps,
-	InnerBlocks,
+	useInnerBlocksProps,
 	InspectorControls,
 } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
@@ -12,6 +12,19 @@ export default function Edit( { attributes, setAttributes } ) {
 	const { columns } = attributes;
 	const onChangeColumns = ( newColumns ) =>
 		setAttributes( { columns: newColumns } );
+
+	const blockProps = useBlockProps( {
+		className: `has-${ columns }-columns`,
+	} );
+	const innerBlocksProps = useInnerBlocksProps( blockProps, {
+		allowedBlocks: [ 'block-course/team-member' ],
+		orientation: 'horizontal',
+		template: [
+			[ 'block-course/team-member' ],
+			[ 'block-course/team-member' ],
+			[ 'block-course/team-member' ],
+		],
+	} );
 
 	return (
 		<>
@@ -25,24 +38,11 @@ export default function Edit( { attributes, setAttributes } ) {
 						onChange={ onChangeColumns }
 						min={ 1 }
 						max={ 6 }
+						__nextHasNoMarginBottom
 					/>
 				</PanelBody>
 			</InspectorControls>
-			<div
-				{ ...useBlockProps( {
-					className: `has-${ columns }-columns`,
-				} ) }
-			>
-				<InnerBlocks
-					allowedBlocks={ [ 'block-course/team-member' ] }
-					template={ [
-						[ 'block-course/team-member' ], // can be passed default value as well like { name: 'John Doe', bio: 'Lorem ipsum' } as second argument of the each block
-						[ 'block-course/team-member' ],
-						[ 'block-course/team-member' ],
-					] }
-					//templateLock="all" // using "all" can't add, remove and sorting blocks and using "insert" can't add and remove blocks just sorting is allowed
-				/>
-			</div>
+			<div { ...innerBlocksProps } />
 		</>
 	);
 }

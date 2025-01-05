@@ -38,6 +38,14 @@ function Edit({
   const onChangeColumns = newColumns => setAttributes({
     columns: newColumns
   });
+  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useBlockProps)({
+    className: `has-${columns}-columns`
+  });
+  const innerBlocksProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useInnerBlocksProps)(blockProps, {
+    allowedBlocks: ['block-course/team-member'],
+    orientation: 'horizontal',
+    template: [['block-course/team-member'], ['block-course/team-member'], ['block-course/team-member']]
+  });
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.Fragment, {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InspectorControls, {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
@@ -47,20 +55,12 @@ function Edit({
           value: columns,
           onChange: onChangeColumns,
           min: 1,
-          max: 6
+          max: 6,
+          __nextHasNoMarginBottom: true
         })
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-      ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useBlockProps)({
-        className: `has-${columns}-columns`
-      }),
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InnerBlocks, {
-        allowedBlocks: ['block-course/team-member'],
-        template: [['block-course/team-member'],
-        // can be passed default value as well like { name: 'John Doe', bio: 'Lorem ipsum' } as second argument of the each block
-        ['block-course/team-member'], ['block-course/team-member']]
-        //templateLock="all" // using "all" can't add, remove and sorting blocks and using "insert" can't add and remove blocks just sorting is allowed
-      })
+      ...innerBlocksProps
     })]
   });
 }
@@ -499,7 +499,7 @@ module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/tru
 /******/ 			return __webpack_require__.O(result);
 /******/ 		}
 /******/ 		
-/******/ 		var chunkLoadingGlobal = globalThis["webpackChunkteam_members"] = globalThis["webpackChunkteam_members"] || [];
+/******/ 		var chunkLoadingGlobal = globalThis["webpackChunkteam_members_block"] = globalThis["webpackChunkteam_members_block"] || [];
 /******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
 /******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
 /******/ 	})();

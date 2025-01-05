@@ -2,5 +2,110 @@
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/editor.scss ***!
   \****************************************************************************************************************************************************************************************************************************************/
 .wp-block-block-course-team-members-block {
-  border: 1px dotted rgb(250, 8, 8);
+  display: block;
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -10px !important;
+  margin-left: -10px !important;
+}
+.wp-block-block-course-team-members-block.has-1-columns > [data-type="block-course/team-member"] {
+  width: calc(100% / 1 - 20px);
+}
+.wp-block-block-course-team-members-block.has-1-columns .block-list-appender {
+  align-self: stretch;
+  width: calc(100% / 1 - 20px);
+  margin: 10px;
+  border: 1px dotted #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70px;
+  position: initial;
+}
+.wp-block-block-course-team-members-block.has-2-columns > [data-type="block-course/team-member"] {
+  width: calc(100% / 2 - 20px);
+}
+.wp-block-block-course-team-members-block.has-2-columns .block-list-appender {
+  align-self: stretch;
+  width: calc(100% / 2 - 20px);
+  margin: 10px;
+  border: 1px dotted #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70px;
+  position: initial;
+}
+.wp-block-block-course-team-members-block.has-3-columns > [data-type="block-course/team-member"] {
+  width: calc(100% / 3 - 20px);
+}
+.wp-block-block-course-team-members-block.has-3-columns .block-list-appender {
+  align-self: stretch;
+  width: calc(100% / 3 - 20px);
+  margin: 10px;
+  border: 1px dotted #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70px;
+  position: initial;
+}
+.wp-block-block-course-team-members-block.has-4-columns > [data-type="block-course/team-member"] {
+  width: calc(100% / 4 - 20px);
+}
+.wp-block-block-course-team-members-block.has-4-columns .block-list-appender {
+  align-self: stretch;
+  width: calc(100% / 4 - 20px);
+  margin: 10px;
+  border: 1px dotted #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70px;
+  position: initial;
+}
+.wp-block-block-course-team-members-block.has-5-columns > [data-type="block-course/team-member"] {
+  width: calc(100% / 5 - 20px);
+}
+.wp-block-block-course-team-members-block.has-5-columns .block-list-appender {
+  align-self: stretch;
+  width: calc(100% / 5 - 20px);
+  margin: 10px;
+  border: 1px dotted #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70px;
+  position: initial;
+}
+.wp-block-block-course-team-members-block.has-6-columns > [data-type="block-course/team-member"] {
+  width: calc(100% / 6 - 20px);
+}
+.wp-block-block-course-team-members-block.has-6-columns .block-list-appender {
+  align-self: stretch;
+  width: calc(100% / 6 - 20px);
+  margin: 10px;
+  border: 1px dotted #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70px;
+  position: initial;
+}
+.wp-block-block-course-team-members-block > [data-type="block-course/team-member"] {
+  max-width: initial;
+  margin: 10px;
+}
+.wp-block-block-course-team-members-block > [data-type="block-course/team-member"] h4 {
+  color: #222;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+}
+.wp-block-block-course-team-members-block > [data-type="block-course/team-member"] p {
+  color: #565656;
+  font-size: 16px;
+  font-weight: 300;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
