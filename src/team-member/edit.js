@@ -15,8 +15,8 @@ export default function Edit( { attributes, setAttributes } ) {
 		<div { ...useBlockProps() }>
 			<MediaPlaceholder
 				icon="admin-users"
-				onSelect={ (  ) => {} }
-				onSelectURL={ (  ) => {} }
+				onSelect={ () => {} }
+				onSelectURL={ () => {} }
 				accept="image/*"
 				allowedTypes={ [ 'image' ] }
 			/>
