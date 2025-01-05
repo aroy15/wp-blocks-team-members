@@ -29,13 +29,13 @@ export default function Edit( { attributes, setAttributes } ) {
 		} );
 	};
 
-	const onSelectURL = newURL => {
+	const onSelectURL = ( newURL ) => {
 		setAttributes( {
 			url: newURL,
 			id: undefined,
-			alt: ''
-		} )
-	}
+			alt: '',
+		} );
+	};
 
 	return (
 		<div { ...useBlockProps() }>
