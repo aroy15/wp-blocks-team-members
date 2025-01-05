@@ -24,6 +24,10 @@ registerBlockType( 'block-course/team-member', {
 			source: 'html',
 			selector: 'p',
 		},
+		image: {
+			type: 'string',
+			default: '',
+		},
 	},
 	edit: Edit,
 	save: Save,

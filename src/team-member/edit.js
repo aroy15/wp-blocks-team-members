@@ -1,4 +1,8 @@
-import { useBlockProps, RichText } from '@wordpress/block-editor';
+import {
+	useBlockProps,
+	RichText,
+	MediaPlaceholder,
+} from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import metadata from '../block.json';
 
@@ -9,6 +13,13 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	return (
 		<div { ...useBlockProps() }>
+			<MediaPlaceholder
+				icon="admin-users"
+				onSelect={ (  ) => {} }
+				onSelectURL={ (  ) => {} }
+				accept="image/*"
+				allowedTypes={ [ 'image' ] }
+			/>
 			<RichText
 				tagName="h4"
 				placeholder={ __( 'Member Name', metadata.textdomain ) }
