@@ -25,5 +25,8 @@
 		"@wordpress/stylelint-config": "^23.6.0",
 		"eslint-config-prettier": "^9.1.0",
 		"husky": "^9.1.7"
+	},
+	"dependencies": {
+		"@wordpress/blob": "^4.15.0"
 	}
 }

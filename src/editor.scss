@@ -30,6 +30,31 @@
 		max-width: initial;
 		margin: 10px;
 
+		.wp-block-blocks-course-team-member-img {
+			position: relative;
+
+			.components-spinner {
+				position: absolute !important;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				margin: auto;
+			}
+
+			img {
+				aspect-ratio: 9 / 11;
+				width: 100%;
+				object-fit: cover;
+				transition: 0.3s;
+				opacity: 1;
+			}
+
+			&.is-loading img {
+				opacity: 0.3;
+			}
+		}
+
 		h4 {
 			color: #222;
 			font-size: 22px;

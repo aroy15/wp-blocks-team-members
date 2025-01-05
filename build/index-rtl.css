@@ -96,6 +96,28 @@
   max-width: initial;
   margin: 10px;
 }
+.wp-block-block-course-team-members-block > [data-type="block-course/team-member"] .wp-block-blocks-course-team-member-img {
+  position: relative;
+}
+.wp-block-block-course-team-members-block > [data-type="block-course/team-member"] .wp-block-blocks-course-team-member-img .components-spinner {
+  position: absolute !important;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  margin: auto;
+}
+.wp-block-block-course-team-members-block > [data-type="block-course/team-member"] .wp-block-blocks-course-team-member-img img {
+  aspect-ratio: 9/11;
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  transition: 0.3s;
+  opacity: 1;
+}
+.wp-block-block-course-team-members-block > [data-type="block-course/team-member"] .wp-block-blocks-course-team-member-img.is-loading img {
+  opacity: 0.3;
+}
 .wp-block-block-course-team-members-block > [data-type="block-course/team-member"] h4 {
   color: #222;
   font-size: 22px;
