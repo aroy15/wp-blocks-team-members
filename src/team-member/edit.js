@@ -37,10 +37,10 @@ function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 		} );
 	};
 
-	const onUploadError = message => {
+	const onUploadError = ( message ) => {
 		noticeOperations.removeAllNotices(); // it will remove all prevoius notices except current one.
 		noticeOperations.createErrorNotice( message );
-	}
+	};
 
 	return (
 		<div { ...useBlockProps() }>
