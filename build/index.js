@@ -134,7 +134,7 @@ function save({
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Edit)
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__);
@@ -155,7 +155,9 @@ __webpack_require__.r(__webpack_exports__);
 
 function Edit({
   attributes,
-  setAttributes
+  setAttributes,
+  noticeOperations,
+  noticeUI
 }) {
   const {
     name,
@@ -191,6 +193,10 @@ function Edit({
       alt: ''
     });
   };
+  const onUploadError = message => {
+    noticeOperations.removeAllNotices(); // it will remove all prevoius notices except current one.
+    noticeOperations.createErrorNotice(message);
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useBlockProps)(),
     children: [url && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
@@ -203,10 +209,12 @@ function Edit({
       icon: "admin-users",
       onSelect: onSelectImage,
       onSelectURL: onSelectURL,
-      onError: () => {},
-      accept: "image/*",
+      onError: onUploadError
+      // accept="image/*"
+      ,
       allowedTypes: ['image'],
-      disableMediaButtons: url
+      disableMediaButtons: url,
+      notices: noticeUI
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText, {
       tagName: "h4",
       placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Member Name', _block_json__WEBPACK_IMPORTED_MODULE_2__.textdomain),
@@ -222,6 +230,7 @@ function Edit({
     })]
   });
 }
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.withNotices)(Edit));
 
 /***/ }),
 

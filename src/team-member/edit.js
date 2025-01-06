@@ -6,9 +6,9 @@ import {
 import { __ } from '@wordpress/i18n';
 import metadata from '../block.json';
 import { isBlobURL } from '@wordpress/blob';
-import { Spinner } from '@wordpress/components';
+import { Spinner, withNotices } from '@wordpress/components';
 
-export default function Edit( { attributes, setAttributes } ) {
+function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 	const { name, bio, url, alt } = attributes;
 	const onChangeName = ( newName ) => setAttributes( { name: newName } );
 	const onChangeBio = ( newBio ) => setAttributes( { bio: newBio } );
@@ -37,6 +37,11 @@ export default function Edit( { attributes, setAttributes } ) {
 		} );
 	};
 
+	const onUploadError = message => {
+		noticeOperations.removeAllNotices(); // it will remove all prevoius notices except current one.
+		noticeOperations.createErrorNotice( message );
+	}
+
 	return (
 		<div { ...useBlockProps() }>
 			{ url && (
@@ -53,10 +58,11 @@ export default function Edit( { attributes, setAttributes } ) {
 				icon="admin-users"
 				onSelect={ onSelectImage }
 				onSelectURL={ onSelectURL }
-				onError={ () => {} }
-				accept="image/*"
+				onError={ onUploadError }
+				// accept="image/*"
 				allowedTypes={ [ 'image' ] }
 				disableMediaButtons={ url }
+				notices={ noticeUI }
 			/>
 			<RichText
 				tagName="h4"
@@ -75,3 +81,5 @@ export default function Edit( { attributes, setAttributes } ) {
 		</div>
 	);
 }
+
+export default withNotices( Edit );
