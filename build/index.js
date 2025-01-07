@@ -202,6 +202,13 @@ function Edit({
     noticeOperations.removeAllNotices(); // it will remove all prevoius notices except current one.
     noticeOperations.createErrorNotice(message);
   };
+  const removeImage = () => {
+    setAttributes({
+      id: undefined,
+      url: undefined,
+      alt: ''
+    });
+  };
 
   // When page load it will check any url is Blob. if yes then it will remove that
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -223,9 +230,9 @@ function Edit({
     }
   }, [url]);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.BlockControls, {
+    children: [url && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.BlockControls, {
       group: "inline",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaReplaceFlow, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaReplaceFlow, {
         name: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Replace Image', _block_json__WEBPACK_IMPORTED_MODULE_3__.textdomain),
         onSelect: onSelectImage,
         onSelectURL: onSelectURL,
@@ -234,7 +241,10 @@ function Edit({
         allowedTypes: ['image'],
         mediaId: id,
         mediaURL: url
-      })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.ToolbarButton, {
+        onClick: removeImage,
+        children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Remove Image', _block_json__WEBPACK_IMPORTED_MODULE_3__.textdomain)
+      })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
       ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)(),
       children: [url && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {

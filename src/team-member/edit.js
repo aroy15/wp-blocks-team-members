@@ -9,7 +9,7 @@ import {
 import { __ } from '@wordpress/i18n';
 import metadata from '../block.json';
 import { isBlobURL, revokeBlobURL } from '@wordpress/blob';
-import { Spinner, withNotices } from '@wordpress/components';
+import { Spinner, withNotices, ToolbarButton } from '@wordpress/components';
 
 function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 	const { name, bio, url, alt, id } = attributes;
@@ -47,6 +47,14 @@ function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 		noticeOperations.createErrorNotice( message );
 	};
 
+	const removeImage = () => {
+		setAttributes( {
+			id: undefined,
+			url: undefined,
+			alt: '',
+		} );
+	};
+
 	// When page load it will check any url is Blob. if yes then it will remove that
 	useEffect( () => {
 		if ( ! id && isBlobURL( url ) ) {
@@ -69,18 +77,23 @@ function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 
 	return (
 		<>
-			<BlockControls group="inline">
-				<MediaReplaceFlow
-					name={ __( 'Replace Image', metadata.textdomain ) }
-					onSelect={ onSelectImage }
-					onSelectURL={ onSelectURL }
-					onError={ onUploadError }
-					accept="image/*"
-					allowedTypes={ [ 'image' ] }
-					mediaId={ id }
-					mediaURL={ url }
-				/>
-			</BlockControls>
+			{ url && (
+				<BlockControls group="inline">
+					<MediaReplaceFlow
+						name={ __( 'Replace Image', metadata.textdomain ) }
+						onSelect={ onSelectImage }
+						onSelectURL={ onSelectURL }
+						onError={ onUploadError }
+						accept="image/*"
+						allowedTypes={ [ 'image' ] }
+						mediaId={ id }
+						mediaURL={ url }
+					/>
+					<ToolbarButton onClick={ removeImage }>
+						{ __( 'Remove Image', metadata.textdomain ) }
+					</ToolbarButton>
+				</BlockControls>
+			) }
 			<div { ...useBlockProps() }>
 				{ url && (
 					<div
