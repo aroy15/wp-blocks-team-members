@@ -3,6 +3,8 @@ import {
 	useBlockProps,
 	RichText,
 	MediaPlaceholder,
+	BlockControls,
+	MediaReplaceFlow,
 } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import metadata from '../block.json';
@@ -45,7 +47,7 @@ function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 		noticeOperations.createErrorNotice( message );
 	};
 
-	// When page load it will check any the url is Blob. if yes then it will remove that
+	// When page load it will check any url is Blob. if yes then it will remove that
 	useEffect( () => {
 		if ( ! id && isBlobURL( url ) ) {
 			setAttributes( {
@@ -66,42 +68,56 @@ function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 	}, [ url ] );
 
 	return (
-		<div { ...useBlockProps() }>
-			{ url && (
-				<div
-					className={ `wp-block-blocks-course-team-member-img${
-						isBlobURL( url ) ? ' is-loading' : ''
-					}` }
-				>
-					<img src={ url } alt={ alt } />
-					{ isBlobURL( url ) && <Spinner /> }
-				</div>
-			) }
-			<MediaPlaceholder
-				icon="admin-users"
-				onSelect={ onSelectImage }
-				onSelectURL={ onSelectURL }
-				onError={ onUploadError }
-				// accept="image/*"
-				allowedTypes={ [ 'image' ] }
-				disableMediaButtons={ url }
-				notices={ noticeUI }
-			/>
-			<RichText
-				tagName="h4"
-				placeholder={ __( 'Member Name', metadata.textdomain ) }
-				value={ name }
-				onChange={ onChangeName }
-				allowedFormats={ [] }
-			/>
-			<RichText
-				tagName="p"
-				placeholder={ __( 'Member Bio', metadata.textdomain ) }
-				value={ bio }
-				onChange={ onChangeBio }
-				allowedFormats={ [] }
-			/>
-		</div>
+		<>
+			<BlockControls group="inline">
+				<MediaReplaceFlow
+					name={ __( 'Replace Image', metadata.textdomain ) }
+					onSelect={ onSelectImage }
+					onSelectURL={ onSelectURL }
+					onError={ onUploadError }
+					accept="image/*"
+					allowedTypes={ [ 'image' ] }
+					mediaId={ id }
+					mediaURL={ url }
+				/>
+			</BlockControls>
+			<div { ...useBlockProps() }>
+				{ url && (
+					<div
+						className={ `wp-block-blocks-course-team-member-img${
+							isBlobURL( url ) ? ' is-loading' : ''
+						}` }
+					>
+						<img src={ url } alt={ alt } />
+						{ isBlobURL( url ) && <Spinner /> }
+					</div>
+				) }
+				<MediaPlaceholder
+					icon="admin-users"
+					onSelect={ onSelectImage }
+					onSelectURL={ onSelectURL }
+					onError={ onUploadError }
+					accept="image/*"
+					allowedTypes={ [ 'image' ] }
+					disableMediaButtons={ url }
+					notices={ noticeUI }
+				/>
+				<RichText
+					tagName="h4"
+					placeholder={ __( 'Member Name', metadata.textdomain ) }
+					value={ name }
+					onChange={ onChangeName }
+					allowedFormats={ [] }
+				/>
+				<RichText
+					tagName="p"
+					placeholder={ __( 'Member Bio', metadata.textdomain ) }
+					value={ bio }
+					onChange={ onChangeBio }
+					allowedFormats={ [] }
+				/>
+			</div>
+		</>
 	);
 }
 

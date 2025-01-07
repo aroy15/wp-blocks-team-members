@@ -39,6 +39,7 @@
   font-size: 22px;
   font-weight: 700;
   margin: 0;
+  word-wrap: break-word;
 }
 .wp-block-block-course-team-members-block .wp-block-block-course-team-member p {
   color: #565656;
