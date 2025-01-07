@@ -1,3 +1,4 @@
+import { useEffect, useState } from '@wordpress/element';
 import {
 	useBlockProps,
 	RichText,
@@ -5,11 +6,13 @@ import {
 } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import metadata from '../block.json';
-import { isBlobURL } from '@wordpress/blob';
+import { isBlobURL, revokeBlobURL } from '@wordpress/blob';
 import { Spinner, withNotices } from '@wordpress/components';
 
 function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
-	const { name, bio, url, alt } = attributes;
+	const { name, bio, url, alt, id } = attributes;
+	const [ blobURL, setBlobURL ] = useState();
+
 	const onChangeName = ( newName ) => setAttributes( { name: newName } );
 	const onChangeBio = ( newBio ) => setAttributes( { bio: newBio } );
 
@@ -41,6 +44,26 @@ function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 		noticeOperations.removeAllNotices(); // it will remove all prevoius notices except current one.
 		noticeOperations.createErrorNotice( message );
 	};
+
+	// When page load it will check any the url is Blob. if yes then it will remove that
+	useEffect( () => {
+		if ( ! id && isBlobURL( url ) ) {
+			setAttributes( {
+				url: undefined,
+				alt: '',
+			} );
+		}
+	}, [] );
+
+	// If images are uploaded successfuly then browser still save the blob url which is removing using this pice of code.
+	useEffect( () => {
+		if ( isBlobURL( url ) ) {
+			setBlobURL( url );
+		} else {
+			revokeBlobURL( blobURL );
+			setBlobURL();
+		}
+	}, [ url ] );
 
 	return (
 		<div { ...useBlockProps() }>
