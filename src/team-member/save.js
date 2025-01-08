@@ -2,6 +2,7 @@ import { useBlockProps, RichText } from '@wordpress/block-editor';
 
 export default function Save( { attributes } ) {
 	const { name, bio, url, alt, id } = attributes;
+
 	return (
 		<div { ...useBlockProps.save() }>
 			{ url && (

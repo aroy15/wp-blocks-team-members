@@ -1,19 +1,38 @@
 import { useEffect, useState } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
 import {
 	useBlockProps,
 	RichText,
 	MediaPlaceholder,
 	BlockControls,
 	MediaReplaceFlow,
+	InspectorControls,
 } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import metadata from '../block.json';
 import { isBlobURL, revokeBlobURL } from '@wordpress/blob';
-import { Spinner, withNotices, ToolbarButton } from '@wordpress/components';
+import {
+	Spinner,
+	withNotices,
+	ToolbarButton,
+	PanelBody,
+	TextareaControl,
+} from '@wordpress/components';
 
 function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 	const { name, bio, url, alt, id } = attributes;
 	const [ blobURL, setBlobURL ] = useState();
+	const imageInfo = useSelect(
+		( select ) => {
+			const data = select( 'core' ).getEntityRecord(
+				'postType',
+				'attachment',
+				id
+			);
+			return data;
+		},
+		[ id ]
+	);
 
 	const onChangeName = ( newName ) => setAttributes( { name: newName } );
 	const onChangeBio = ( newBio ) => setAttributes( { bio: newBio } );
@@ -41,6 +60,13 @@ function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 			alt: '',
 		} );
 	};
+
+	const onChangeImageAlt = ( newAlt ) => {
+		setAttributes( { alt: newAlt } );
+	};
+
+	const onGetBackMainAltText = () =>
+		setAttributes( { alt: imageInfo?.alt_text } );
 
 	const onUploadError = ( message ) => {
 		noticeOperations.removeAllNotices(); // it will remove all prevoius notices except current one.
@@ -94,6 +120,45 @@ function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 					</ToolbarButton>
 				</BlockControls>
 			) }
+
+			<InspectorControls>
+				<PanelBody
+					title={ __( 'Image Settings', metadata.textdomain ) }
+				>
+					{ url && ! isBlobURL( url ) && (
+						<>
+							<button
+								className="block-course-setting-btn"
+								onClick={ onGetBackMainAltText }
+								disabled={
+									! imageInfo?.alt_text ? true : false
+								}
+								title={
+									! imageInfo?.alt_text
+										? __(
+												'Main alt text not found',
+												metadata.textdomain
+										  )
+										: ''
+								}
+							>
+								Get Back Main Alt Text
+							</button>
+							<TextareaControl
+								__nextHasNoMarginBottom
+								label={ __( 'Image Alt', metadata.textdomain ) }
+								value={ alt }
+								onChange={ onChangeImageAlt }
+								help={ __(
+									"Alternative text describes your image to people can't see Item. Add a short description with its key details.",
+									metadata.textdomain
+								) }
+							/>
+						</>
+					) }
+				</PanelBody>
+			</InspectorControls>
+
 			<div { ...useBlockProps() }>
 				{ url && (
 					<div
