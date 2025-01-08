@@ -173,9 +173,11 @@ function Edit({
     id
   } = attributes;
   const [blobURL, setBlobURL] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)();
-  const imageInfo = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.useSelect)(select => {
-    const data = select('core').getEntityRecord('postType', 'attachment', id);
-    return data;
+  const imageObject = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.useSelect)(select => {
+    const {
+      getMedia
+    } = select('core');
+    return id ? getMedia(id) : null;
   }, [id]);
   const onChangeName = newName => setAttributes({
     name: newName
@@ -211,7 +213,7 @@ function Edit({
     });
   };
   const onGetBackMainAltText = () => setAttributes({
-    alt: imageInfo?.alt_text
+    alt: imageObject?.alt_text
   });
   const onUploadError = message => {
     noticeOperations.removeAllNotices(); // it will remove all prevoius notices except current one.
@@ -224,6 +226,9 @@ function Edit({
       alt: ''
     });
   };
+  const onChangeImageSize = newSizeURL => setAttributes({
+    url: newSizeURL
+  });
 
   // When page load it will check any url is Blob. if yes then it will remove that
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -261,14 +266,23 @@ function Edit({
         children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Remove Image', _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain)
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.PanelBody, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.PanelBody, {
         title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Image Settings', _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain),
-        children: url && !(0,_wordpress_blob__WEBPACK_IMPORTED_MODULE_5__.isBlobURL)(url) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.Fragment, {
+        children: [id && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.SelectControl, {
+          __nextHasNoMarginBottom: true,
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Image Size', _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain),
+          options: Object.keys(imageObject?.media_details.sizes || {}).map(key => ({
+            label: key,
+            value: imageObject?.media_details.sizes[key].source_url
+          })),
+          value: url,
+          onChange: onChangeImageSize
+        }), url && !(0,_wordpress_blob__WEBPACK_IMPORTED_MODULE_5__.isBlobURL)(url) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.Fragment, {
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
             className: "block-course-setting-btn",
             onClick: onGetBackMainAltText,
-            disabled: !imageInfo?.alt_text ? true : false,
-            title: !imageInfo?.alt_text ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Main alt text not found', _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain) : '',
+            disabled: !imageObject?.alt_text ? true : false,
+            title: !imageObject?.alt_text ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Main alt text not found', _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain) : '',
             children: "Get Back Main Alt Text"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.TextareaControl, {
             __nextHasNoMarginBottom: true,
@@ -277,7 +291,7 @@ function Edit({
             onChange: onChangeImageAlt,
             help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Alternative text describes your image to people can't see Item. Add a short description with its key details.", _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain)
           })]
-        })
+        })]
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
       ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)(),

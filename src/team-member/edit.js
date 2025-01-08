@@ -17,19 +17,16 @@ import {
 	ToolbarButton,
 	PanelBody,
 	TextareaControl,
+	SelectControl,
 } from '@wordpress/components';
 
 function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 	const { name, bio, url, alt, id } = attributes;
 	const [ blobURL, setBlobURL ] = useState();
-	const imageInfo = useSelect(
+	const imageObject = useSelect(
 		( select ) => {
-			const data = select( 'core' ).getEntityRecord(
-				'postType',
-				'attachment',
-				id
-			);
-			return data;
+			const { getMedia } = select( 'core' );
+			return id ? getMedia( id ) : null;
 		},
 		[ id ]
 	);
@@ -66,7 +63,7 @@ function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 	};
 
 	const onGetBackMainAltText = () =>
-		setAttributes( { alt: imageInfo?.alt_text } );
+		setAttributes( { alt: imageObject?.alt_text } );
 
 	const onUploadError = ( message ) => {
 		noticeOperations.removeAllNotices(); // it will remove all prevoius notices except current one.
@@ -80,6 +77,9 @@ function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 			alt: '',
 		} );
 	};
+
+	const onChangeImageSize = ( newSizeURL ) =>
+		setAttributes( { url: newSizeURL } );
 
 	// When page load it will check any url is Blob. if yes then it will remove that
 	useEffect( () => {
@@ -125,16 +125,31 @@ function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 				<PanelBody
 					title={ __( 'Image Settings', metadata.textdomain ) }
 				>
+					{ id && (
+						<SelectControl
+							__nextHasNoMarginBottom
+							label={ __( 'Image Size', metadata.textdomain ) }
+							options={ Object.keys(
+								imageObject?.media_details.sizes || {}
+							).map( ( key ) => ( {
+								label: key,
+								value: imageObject?.media_details.sizes[ key ]
+									.source_url,
+							} ) ) }
+							value={ url }
+							onChange={ onChangeImageSize }
+						/>
+					) }
 					{ url && ! isBlobURL( url ) && (
 						<>
 							<button
 								className="block-course-setting-btn"
 								onClick={ onGetBackMainAltText }
 								disabled={
-									! imageInfo?.alt_text ? true : false
+									! imageObject?.alt_text ? true : false
 								}
 								title={
-									! imageInfo?.alt_text
+									! imageObject?.alt_text
 										? __(
 												'Main alt text not found',
 												metadata.textdomain
