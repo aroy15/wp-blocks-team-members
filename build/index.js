@@ -177,8 +177,29 @@ function Edit({
     const {
       getMedia
     } = select('core');
-    return id ? getMedia(id) : null;
+    return id ? getMedia(id) : null; //returning an object.
   }, [id]);
+  const imageSizes = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.useSelect)(select => {
+    return select(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.store).getSettings().imageSizes; //returning an array. also can apply select( 'core/block-editor' );
+  }, []);
+  const getImageSizeOptions = () => {
+    if (!imageObject) {
+      return [];
+    }
+    const options = [];
+    const sizes = imageObject.media_details.sizes;
+    for (const key in sizes) {
+      const size = sizes[key];
+      const imageSize = imageSizes?.find(s => s.slug === key);
+      if (imageSize) {
+        options.push({
+          label: imageSize?.name,
+          value: size.source_url
+        });
+      }
+    }
+    return options;
+  };
   const onChangeName = newName => setAttributes({
     name: newName
   });
@@ -226,9 +247,11 @@ function Edit({
       alt: ''
     });
   };
-  const onChangeImageSize = newSizeURL => setAttributes({
-    url: newSizeURL
-  });
+  const onChangeImageSize = newSizeURL => {
+    setAttributes({
+      url: newSizeURL
+    });
+  };
 
   // When page load it will check any url is Blob. if yes then it will remove that
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -271,10 +294,7 @@ function Edit({
         children: [id && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.SelectControl, {
           __nextHasNoMarginBottom: true,
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Image Size', _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain),
-          options: Object.keys(imageObject?.media_details.sizes || {}).map(key => ({
-            label: key,
-            value: imageObject?.media_details.sizes[key].source_url
-          })),
+          options: getImageSizeOptions(),
           value: url,
           onChange: onChangeImageSize
         }), url && !(0,_wordpress_blob__WEBPACK_IMPORTED_MODULE_5__.isBlobURL)(url) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.Fragment, {

@@ -7,6 +7,7 @@ import {
 	BlockControls,
 	MediaReplaceFlow,
 	InspectorControls,
+	store as blockEditorStore,
 } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import metadata from '../block.json';
@@ -26,10 +27,32 @@ function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 	const imageObject = useSelect(
 		( select ) => {
 			const { getMedia } = select( 'core' );
-			return id ? getMedia( id ) : null;
+			return id ? getMedia( id ) : null; //returning an object.
 		},
 		[ id ]
 	);
+	const imageSizes = useSelect( ( select ) => {
+		return select( blockEditorStore ).getSettings().imageSizes; //returning an array. also can apply select( 'core/block-editor' );
+	}, [] );
+
+	const getImageSizeOptions = () => {
+		if ( ! imageObject ) {
+			return [];
+		}
+		const options = [];
+		const sizes = imageObject.media_details.sizes;
+		for ( const key in sizes ) {
+			const size = sizes[ key ];
+			const imageSize = imageSizes?.find( ( s ) => s.slug === key );
+			if ( imageSize ) {
+				options.push( {
+					label: imageSize?.name,
+					value: size.source_url,
+				} );
+			}
+		}
+		return options;
+	};
 
 	const onChangeName = ( newName ) => setAttributes( { name: newName } );
 	const onChangeBio = ( newBio ) => setAttributes( { bio: newBio } );
@@ -78,8 +101,9 @@ function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 		} );
 	};
 
-	const onChangeImageSize = ( newSizeURL ) =>
+	const onChangeImageSize = ( newSizeURL ) => {
 		setAttributes( { url: newSizeURL } );
+	};
 
 	// When page load it will check any url is Blob. if yes then it will remove that
 	useEffect( () => {
@@ -129,13 +153,7 @@ function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 						<SelectControl
 							__nextHasNoMarginBottom
 							label={ __( 'Image Size', metadata.textdomain ) }
-							options={ Object.keys(
-								imageObject?.media_details.sizes || {}
-							).map( ( key ) => ( {
-								label: key,
-								value: imageObject?.media_details.sizes[ key ]
-									.source_url,
-							} ) ) }
+							options={ getImageSizeOptions() }
 							value={ url }
 							onChange={ onChangeImageSize }
 						/>
