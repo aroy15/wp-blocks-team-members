@@ -1,4 +1,4 @@
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect, useState, useRef } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import {
 	useBlockProps,
@@ -12,6 +12,7 @@ import {
 import { __ } from '@wordpress/i18n';
 import metadata from '../block.json';
 import { isBlobURL, revokeBlobURL } from '@wordpress/blob';
+import { usePrevious } from '@wordpress/compose';
 import {
 	Spinner,
 	withNotices,
@@ -24,6 +25,10 @@ import {
 function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 	const { name, bio, url, alt, id } = attributes;
 	const [ blobURL, setBlobURL ] = useState();
+	const prevURL = usePrevious( url );
+
+	const titleRef = useRef();
+
 	const imageObject = useSelect(
 		( select ) => {
 			const { getMedia } = select( 'core' );
@@ -125,6 +130,13 @@ function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 		}
 	}, [ url ] );
 
+	// prevURL dependancy is applied to prevent focusing on the title after replaceing or removing the image. So the tittle will be focused only after uploading/inserting the image.
+	useEffect( () => {
+		if ( url && ! prevURL ) {
+			titleRef.current.focus();
+		}
+	}, [ url, prevURL ] );
+
 	return (
 		<>
 			{ url && (
@@ -214,6 +226,7 @@ function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 					notices={ noticeUI }
 				/>
 				<RichText
+					ref={ titleRef }
 					tagName="h4"
 					placeholder={ __( 'Member Name', metadata.textdomain ) }
 					value={ name }
