@@ -589,7 +589,7 @@ module.exports = window["wp"]["i18n"];
   \************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"block-course/team-members-block","version":"0.1.0","title":"Team Members Block","category":"media","icon":"groups","description":"A team members grid block.","keywords":["team","members","grid"],"supports":{"html":false},"textdomain":"team-members-block","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js","attributes":{"columns":{"type":"number","default":2}}}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"block-course/team-members-block","version":"0.1.0","title":"Team Members Block","category":"media","icon":"groups","description":"A team members grid block.","keywords":["team","members","grid"],"supports":{"html":false,"align":["wide","full"]},"textdomain":"team-members-block","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js","attributes":{"columns":{"type":"number","default":2}}}');
 
 /***/ })
 

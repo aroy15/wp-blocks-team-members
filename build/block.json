@@ -13,7 +13,11 @@
     "grid"
   ],
   "supports": {
-    "html": false
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ]
   },
   "textdomain": "team-members-block",
   "editorScript": "file:./index.js",
