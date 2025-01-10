@@ -15,7 +15,7 @@ export default function Save( { attributes } ) {
 				<div className="wp-block-block-course-team-member-social-links">
 					<ul>
 						{ socialLinks.map( ( item, index ) => (
-							<li key={ index }>
+							<li key={ index } data-icon={ item.icon }>
 								<a
 									href={ item.link }
 									target="_blank"

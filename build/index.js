@@ -473,7 +473,20 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         link: 'https://instagram.com',
         icon: 'instagram'
-      }]
+      }],
+      source: 'query',
+      selector: '.wp-block-block-course-team-member-social-links ul li',
+      query: {
+        icon: {
+          source: 'attribute',
+          attribute: 'data-icon'
+        },
+        link: {
+          selector: 'a',
+          source: 'attribute',
+          attribute: 'href'
+        }
+      }
     }
   },
   edit: _edit__WEBPACK_IMPORTED_MODULE_3__["default"],
@@ -528,6 +541,7 @@ function Save({
       className: "wp-block-block-course-team-member-social-links",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("ul", {
         children: socialLinks.map((item, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
+          "data-icon": item.icon,
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
             href: item.link,
             target: "_blank",
