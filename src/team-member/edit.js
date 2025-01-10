@@ -22,6 +22,8 @@ import {
 	SelectControl,
 	Icon,
 	Tooltip,
+	Button,
+	TextControl,
 } from '@wordpress/components';
 
 function Edit( props ) {
@@ -311,6 +313,21 @@ function Edit( props ) {
 							</li>
 						) }
 					</ul>
+
+					{ /* Here if "selectedLink !== undefined &&" applied becuase the first icon index will be zero that make the condition false for the first icon. Means if we set just "selectedLink &&", the form will not show for the first selcted icon.   */ }
+					{ selectedLink !== undefined && (
+						<div className="wp-block-block-course-team-member-link-form">
+							<TextControl
+								label={ __( 'Icon', metadata.textdomain ) }
+							/>
+							<TextControl
+								label={ __( 'URL', metadata.textdomain ) }
+							/>
+							<Button isDestructive>
+								{ __( 'Remove Link', metadata.textdomain ) }
+							</Button>
+						</div>
+					) }
 				</div>
 			</div>
 		</>
