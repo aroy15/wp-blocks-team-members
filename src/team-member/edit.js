@@ -24,13 +24,14 @@ import {
 	Tooltip,
 } from '@wordpress/components';
 
-function Edit( {
-	attributes,
-	setAttributes,
-	noticeOperations,
-	noticeUI,
-	isSelected,
-} ) {
+function Edit( props ) {
+	const {
+		attributes,
+		setAttributes,
+		noticeOperations,
+		noticeUI,
+		isSelected,
+	} = props;
 	const { name, bio, url, alt, id, socialLinks } = attributes;
 	const [ blobURL, setBlobURL ] = useState();
 	const [ selectedLink, setSelectedLink ] = useState();
@@ -119,6 +120,15 @@ function Edit( {
 
 	const onChangeImageSize = ( newSizeURL ) => {
 		setAttributes( { url: newSizeURL } );
+	};
+
+	const addNewSocialItem = () => {
+		setAttributes( {
+			socialLinks: [ ...socialLinks, { icon: 'wordpress', link: '' } ],
+		} );
+
+		// Here last item's length will be counted in next render. Imagine currently we have 2 items in the array by default and we are adding another one. So, length will be 2 not 3 becuase just currently added item will be availbe in next render respectively.
+		setSelectedLink( socialLinks.length );
 	};
 
 	// When page load it will check any url is Blob. if yes then it will remove that
@@ -293,6 +303,7 @@ function Edit( {
 											'Add Social Link',
 											metadata.textdomain
 										) }
+										onClick={ addNewSocialItem }
 									>
 										<Icon icon="plus" />
 									</button>

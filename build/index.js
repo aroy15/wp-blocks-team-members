@@ -162,13 +162,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function Edit({
-  attributes,
-  setAttributes,
-  noticeOperations,
-  noticeUI,
-  isSelected
-}) {
+function Edit(props) {
+  const {
+    attributes,
+    setAttributes,
+    noticeOperations,
+    noticeUI,
+    isSelected
+  } = props;
   const {
     name,
     bio,
@@ -260,6 +261,17 @@ function Edit({
     setAttributes({
       url: newSizeURL
     });
+  };
+  const addNewSocialItem = () => {
+    setAttributes({
+      socialLinks: [...socialLinks, {
+        icon: 'wordpress',
+        link: ''
+      }]
+    });
+
+    // Here last item's length will be counted in next render. Imagine currently we have 2 items in the array by default and we are adding another one. So, length will be 2 not 3 becuase just currently added item will be availbe in next render respectively.
+    setSelectedLink(socialLinks.length);
   };
 
   // When page load it will check any url is Blob. if yes then it will remove that
@@ -382,6 +394,7 @@ function Edit({
               text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Add Social Link', _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain),
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
                 "aria-label": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Add Social Link', _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain),
+                onClick: addNewSocialItem,
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.Icon, {
                   icon: "plus"
                 })
