@@ -48,5 +48,18 @@
   margin-bottom: 5px;
   margin-top: 5px;
 }
+.wp-block-block-course-team-members-block .wp-block-block-course-team-member-social-links ul {
+  list-style: none;
+  margin: 0 -5px;
+  padding: 0;
+}
+.wp-block-block-course-team-members-block .wp-block-block-course-team-member-social-links ul li {
+  display: inline-block;
+  margin: 5px;
+}
+.wp-block-block-course-team-members-block .wp-block-block-course-team-member-social-links ul li a {
+  text-decoration: none;
+  line-height: 1;
+}
 
 /*# sourceMappingURL=style-index.css.map*/
