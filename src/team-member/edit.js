@@ -139,6 +139,16 @@ function Edit( props ) {
 		setAttributes( { socialLinks: socialLinksCopy } );
 	};
 
+	const removeSocialItem = () => {
+		setAttributes( {
+			socialLinks: [
+				...socialLinks.slice( 0, selectedLink ),
+				...socialLinks.slice( selectedLink + 1 ),
+			],
+		} );
+		setSelectedLink();
+	};
+
 	// When page load it will check any url is Blob. if yes then it will remove that
 	useEffect( () => {
 		if ( ! id && isBlobURL( url ) ) {
@@ -337,7 +347,7 @@ function Edit( props ) {
 									updateSocialItem( 'link', link );
 								} }
 							/>
-							<Button isDestructive>
+							<Button isDestructive onClick={ removeSocialItem }>
 								{ __( 'Remove Link', metadata.textdomain ) }
 							</Button>
 						</div>

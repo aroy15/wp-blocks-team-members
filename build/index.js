@@ -280,6 +280,12 @@ function Edit(props) {
       socialLinks: socialLinksCopy
     });
   };
+  const removeSocialItem = () => {
+    setAttributes({
+      socialLinks: [...socialLinks.slice(0, selectedLink), ...socialLinks.slice(selectedLink + 1)]
+    });
+    setSelectedLink();
+  };
 
   // When page load it will check any url is Blob. if yes then it will remove that
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -424,6 +430,7 @@ function Edit(props) {
             }
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.Button, {
             isDestructive: true,
+            onClick: removeSocialItem,
             children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Remove Link', _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain)
           })]
         })]
