@@ -133,6 +133,12 @@ function Edit( props ) {
 		setSelectedLink( socialLinks.length );
 	};
 
+	const updateSocialItem = ( type, value ) => {
+		const socialLinksCopy = [ ...socialLinks ];
+		socialLinksCopy[ selectedLink ][ type ] = value;
+		setAttributes( { socialLinks: socialLinksCopy } );
+	};
+
 	// When page load it will check any url is Blob. if yes then it will remove that
 	useEffect( () => {
 		if ( ! id && isBlobURL( url ) ) {
@@ -319,9 +325,17 @@ function Edit( props ) {
 						<div className="wp-block-block-course-team-member-link-form">
 							<TextControl
 								label={ __( 'Icon', metadata.textdomain ) }
+								value={ socialLinks[ selectedLink ].icon }
+								onChange={ ( icon ) => {
+									updateSocialItem( 'icon', icon );
+								} }
 							/>
 							<TextControl
 								label={ __( 'URL', metadata.textdomain ) }
+								value={ socialLinks[ selectedLink ].link }
+								onChange={ ( link ) => {
+									updateSocialItem( 'link', link );
+								} }
 							/>
 							<Button isDestructive>
 								{ __( 'Remove Link', metadata.textdomain ) }

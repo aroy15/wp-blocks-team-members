@@ -273,6 +273,13 @@ function Edit(props) {
     // Here last item's length will be counted in next render. Imagine currently we have 2 items in the array by default and we are adding another one. So, length will be 2 not 3 becuase just currently added item will be availbe in next render respectively.
     setSelectedLink(socialLinks.length);
   };
+  const updateSocialItem = (type, value) => {
+    const socialLinksCopy = [...socialLinks];
+    socialLinksCopy[selectedLink][type] = value;
+    setAttributes({
+      socialLinks: socialLinksCopy
+    });
+  };
 
   // When page load it will check any url is Blob. if yes then it will remove that
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -404,9 +411,17 @@ function Edit(props) {
         }), selectedLink !== undefined && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
           className: "wp-block-block-course-team-member-link-form",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.TextControl, {
-            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Icon', _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain)
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Icon', _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain),
+            value: socialLinks[selectedLink].icon,
+            onChange: icon => {
+              updateSocialItem('icon', icon);
+            }
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.TextControl, {
-            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('URL', _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain)
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('URL', _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain),
+            value: socialLinks[selectedLink].link,
+            onChange: link => {
+              updateSocialItem('link', link);
+            }
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.Button, {
             isDestructive: true,
             children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Remove Link', _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain)
