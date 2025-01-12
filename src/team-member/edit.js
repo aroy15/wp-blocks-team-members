@@ -34,8 +34,10 @@ import {
 } from '@dnd-kit/core';
 import {
 	SortableContext,
-	verticalListSortingStrategy,
+	horizontalListSortingStrategy,
+	arrayMove,
 } from '@dnd-kit/sortable';
+import { restrictToHorizontalAxis } from '@dnd-kit/modifiers';
 import SortableItem from './sortable-item';
 
 function Edit( props ) {
@@ -53,7 +55,11 @@ function Edit( props ) {
 	const prevURL = usePrevious( url );
 	const prevIsSelected = usePrevious( isSelected );
 
-	const sensors = useSensors( useSensor( PointerSensor ) );
+	const sensors = useSensors(
+		useSensor( PointerSensor, {
+			activationConstraint: { distance: 5 },
+		} )
+	);
 
 	const titleRef = useRef();
 
@@ -118,8 +124,9 @@ function Edit( props ) {
 		setAttributes( { alt: newAlt } );
 	};
 
-	const onGetBackMainAltText = () =>
+	const onGetBackMainAltText = () => {
 		setAttributes( { alt: imageObject?.alt_text } );
+	};
 
 	const onUploadError = ( message ) => {
 		noticeOperations.removeAllNotices(); // it will remove all prevoius notices except current one.
@@ -163,7 +170,21 @@ function Edit( props ) {
 		setSelectedLink();
 	};
 
-	const handleDragEnd = () => {};
+	const handleDragEnd = ( event ) => {
+		const { active, over } = event;
+		if ( active && over && active.id !== over.id ) {
+			const oldIndex = socialLinks.findIndex(
+				( i ) => active.id === `${ i.icon }-${ i.link }`
+			);
+			const newIndex = socialLinks.findIndex(
+				( i ) => over.id === `${ i.icon }-${ i.link }`
+			);
+			setAttributes( {
+				socialLinks: arrayMove( socialLinks, oldIndex, newIndex ),
+			} );
+			setSelectedLink( newIndex );
+		}
+	};
 
 	// When page load it will check any url is Blob. if yes then it will remove that
 	useEffect( () => {
@@ -306,43 +327,28 @@ function Edit( props ) {
 						<DndContext
 							sensors={ sensors }
 							onDragEnd={ handleDragEnd }
+							modifiers={ [ restrictToHorizontalAxis ] }
 						>
 							<SortableContext
 								items={ socialLinks.map(
 									( item ) => `${ item.icon }-${ item.link }`
 								) }
-								strategy={ verticalListSortingStrategy }
+								strategy={ horizontalListSortingStrategy }
 							>
-								{ socialLinks.map( ( item ) => {
+								{ socialLinks.map( ( item, index ) => {
 									return (
 										<SortableItem
 											key={ `${ item.icon }-${ item.link }` }
 											id={ `${ item.icon }-${ item.link }` }
+											index={ index }
+											selectedLink={ selectedLink }
+											setSelectedLink={ setSelectedLink }
+											icon={ item.icon }
 										/>
 									);
 								} ) }
 							</SortableContext>
 						</DndContext>
-						{ socialLinks.map( ( item, index ) => (
-							<li
-								key={ index }
-								className={
-									selectedLink === index
-										? 'is-selected'
-										: null
-								}
-							>
-								<button
-									aria-label={ __(
-										'Edit Social Link',
-										metadata.textdomain
-									) }
-									onClick={ () => setSelectedLink( index ) }
-								>
-									<Icon icon={ item.icon } />
-								</button>
-							</li>
-						) ) }
 
 						{ isSelected && (
 							<li className="wp-block-block-course-team-member-add-icon-li">
@@ -370,6 +376,7 @@ function Edit( props ) {
 					{ selectedLink !== undefined && (
 						<div className="wp-block-block-course-team-member-link-form">
 							<TextControl
+								__nextHasNoMarginBottom
 								label={ __( 'Icon', metadata.textdomain ) }
 								value={ socialLinks[ selectedLink ].icon }
 								onChange={ ( icon ) => {
@@ -377,6 +384,7 @@ function Edit( props ) {
 								} }
 							/>
 							<TextControl
+								__nextHasNoMarginBottom
 								label={ __( 'URL', metadata.textdomain ) }
 								value={ socialLinks[ selectedLink ].link }
 								onChange={ ( link ) => {

@@ -4100,6 +4100,148 @@ const DragOverlay = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().me
 
 /***/ }),
 
+/***/ "./node_modules/@dnd-kit/modifiers/dist/modifiers.esm.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@dnd-kit/modifiers/dist/modifiers.esm.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   createSnapModifier: () => (/* binding */ createSnapModifier),
+/* harmony export */   restrictToFirstScrollableAncestor: () => (/* binding */ restrictToFirstScrollableAncestor),
+/* harmony export */   restrictToHorizontalAxis: () => (/* binding */ restrictToHorizontalAxis),
+/* harmony export */   restrictToParentElement: () => (/* binding */ restrictToParentElement),
+/* harmony export */   restrictToVerticalAxis: () => (/* binding */ restrictToVerticalAxis),
+/* harmony export */   restrictToWindowEdges: () => (/* binding */ restrictToWindowEdges),
+/* harmony export */   snapCenterToCursor: () => (/* binding */ snapCenterToCursor)
+/* harmony export */ });
+/* harmony import */ var _dnd_kit_utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @dnd-kit/utilities */ "./node_modules/@dnd-kit/utilities/dist/utilities.esm.js");
+
+
+function createSnapModifier(gridSize) {
+  return _ref => {
+    let {
+      transform
+    } = _ref;
+    return { ...transform,
+      x: Math.ceil(transform.x / gridSize) * gridSize,
+      y: Math.ceil(transform.y / gridSize) * gridSize
+    };
+  };
+}
+
+const restrictToHorizontalAxis = _ref => {
+  let {
+    transform
+  } = _ref;
+  return { ...transform,
+    y: 0
+  };
+};
+
+function restrictToBoundingRect(transform, rect, boundingRect) {
+  const value = { ...transform
+  };
+
+  if (rect.top + transform.y <= boundingRect.top) {
+    value.y = boundingRect.top - rect.top;
+  } else if (rect.bottom + transform.y >= boundingRect.top + boundingRect.height) {
+    value.y = boundingRect.top + boundingRect.height - rect.bottom;
+  }
+
+  if (rect.left + transform.x <= boundingRect.left) {
+    value.x = boundingRect.left - rect.left;
+  } else if (rect.right + transform.x >= boundingRect.left + boundingRect.width) {
+    value.x = boundingRect.left + boundingRect.width - rect.right;
+  }
+
+  return value;
+}
+
+const restrictToParentElement = _ref => {
+  let {
+    containerNodeRect,
+    draggingNodeRect,
+    transform
+  } = _ref;
+
+  if (!draggingNodeRect || !containerNodeRect) {
+    return transform;
+  }
+
+  return restrictToBoundingRect(transform, draggingNodeRect, containerNodeRect);
+};
+
+const restrictToFirstScrollableAncestor = _ref => {
+  let {
+    draggingNodeRect,
+    transform,
+    scrollableAncestorRects
+  } = _ref;
+  const firstScrollableAncestorRect = scrollableAncestorRects[0];
+
+  if (!draggingNodeRect || !firstScrollableAncestorRect) {
+    return transform;
+  }
+
+  return restrictToBoundingRect(transform, draggingNodeRect, firstScrollableAncestorRect);
+};
+
+const restrictToVerticalAxis = _ref => {
+  let {
+    transform
+  } = _ref;
+  return { ...transform,
+    x: 0
+  };
+};
+
+const restrictToWindowEdges = _ref => {
+  let {
+    transform,
+    draggingNodeRect,
+    windowRect
+  } = _ref;
+
+  if (!draggingNodeRect || !windowRect) {
+    return transform;
+  }
+
+  return restrictToBoundingRect(transform, draggingNodeRect, windowRect);
+};
+
+const snapCenterToCursor = _ref => {
+  let {
+    activatorEvent,
+    draggingNodeRect,
+    transform
+  } = _ref;
+
+  if (draggingNodeRect && activatorEvent) {
+    const activatorCoordinates = (0,_dnd_kit_utilities__WEBPACK_IMPORTED_MODULE_0__.getEventCoordinates)(activatorEvent);
+
+    if (!activatorCoordinates) {
+      return transform;
+    }
+
+    const offsetX = activatorCoordinates.x - draggingNodeRect.left;
+    const offsetY = activatorCoordinates.y - draggingNodeRect.top;
+    return { ...transform,
+      x: transform.x + offsetX - draggingNodeRect.width / 2,
+      y: transform.y + offsetY - draggingNodeRect.height / 2
+    };
+  }
+
+  return transform;
+};
+
+
+//# sourceMappingURL=modifiers.esm.js.map
+
+
+/***/ }),
+
 /***/ "./node_modules/@dnd-kit/sortable/dist/sortable.esm.js":
 /*!*************************************************************!*\
   !*** ./node_modules/@dnd-kit/sortable/dist/sortable.esm.js ***!
@@ -5436,9 +5578,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var _dnd_kit_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @dnd-kit/core */ "./node_modules/@dnd-kit/core/dist/core.esm.js");
 /* harmony import */ var _dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @dnd-kit/sortable */ "./node_modules/@dnd-kit/sortable/dist/sortable.esm.js");
-/* harmony import */ var _sortable_item__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./sortable-item */ "./src/team-member/sortable-item.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var _dnd_kit_modifiers__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @dnd-kit/modifiers */ "./node_modules/@dnd-kit/modifiers/dist/modifiers.esm.js");
+/* harmony import */ var _sortable_item__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./sortable-item */ "./src/team-member/sortable-item.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__);
+
 
 
 
@@ -5471,7 +5615,11 @@ function Edit(props) {
   const [selectedLink, setSelectedLink] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)();
   const prevURL = (0,_wordpress_compose__WEBPACK_IMPORTED_MODULE_6__.usePrevious)(url);
   const prevIsSelected = (0,_wordpress_compose__WEBPACK_IMPORTED_MODULE_6__.usePrevious)(isSelected);
-  const sensors = (0,_dnd_kit_core__WEBPACK_IMPORTED_MODULE_8__.useSensors)((0,_dnd_kit_core__WEBPACK_IMPORTED_MODULE_8__.useSensor)(_dnd_kit_core__WEBPACK_IMPORTED_MODULE_8__.PointerSensor));
+  const sensors = (0,_dnd_kit_core__WEBPACK_IMPORTED_MODULE_8__.useSensors)((0,_dnd_kit_core__WEBPACK_IMPORTED_MODULE_8__.useSensor)(_dnd_kit_core__WEBPACK_IMPORTED_MODULE_8__.PointerSensor, {
+    activationConstraint: {
+      distance: 5
+    }
+  }));
   const titleRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
   const imageObject = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.useSelect)(select => {
     const {
@@ -5533,9 +5681,11 @@ function Edit(props) {
       alt: newAlt
     });
   };
-  const onGetBackMainAltText = () => setAttributes({
-    alt: imageObject?.alt_text
-  });
+  const onGetBackMainAltText = () => {
+    setAttributes({
+      alt: imageObject?.alt_text
+    });
+  };
   const onUploadError = message => {
     noticeOperations.removeAllNotices(); // it will remove all prevoius notices except current one.
     noticeOperations.createErrorNotice(message);
@@ -5576,7 +5726,20 @@ function Edit(props) {
     });
     setSelectedLink();
   };
-  const handleDragEnd = () => {};
+  const handleDragEnd = event => {
+    const {
+      active,
+      over
+    } = event;
+    if (active && over && active.id !== over.id) {
+      const oldIndex = socialLinks.findIndex(i => active.id === `${i.icon}-${i.link}`);
+      const newIndex = socialLinks.findIndex(i => over.id === `${i.icon}-${i.link}`);
+      setAttributes({
+        socialLinks: (0,_dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_9__.arrayMove)(socialLinks, oldIndex, newIndex)
+      });
+      setSelectedLink(newIndex);
+    }
+  };
 
   // When page load it will check any url is Blob. if yes then it will remove that
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -5609,10 +5772,10 @@ function Edit(props) {
       setSelectedLink();
     }
   }, [isSelected, prevIsSelected]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.Fragment, {
-    children: [url && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.Fragment, {
+    children: [url && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, {
       group: "inline",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.MediaReplaceFlow, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.MediaReplaceFlow, {
         name: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Replace Image', _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain),
         onSelect: onSelectImage,
         onSelectURL: onSelectURL,
@@ -5621,27 +5784,27 @@ function Edit(props) {
         allowedTypes: ['image'],
         mediaId: id,
         mediaURL: url
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.ToolbarButton, {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.ToolbarButton, {
         onClick: removeImage,
         children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Remove Image', _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain)
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.PanelBody, {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.PanelBody, {
         title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Image Settings', _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain),
-        children: [id && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.SelectControl, {
+        children: [id && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.SelectControl, {
           __nextHasNoMarginBottom: true,
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Image Size', _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain),
           options: getImageSizeOptions(),
           value: url,
           onChange: onChangeImageSize
-        }), url && !(0,_wordpress_blob__WEBPACK_IMPORTED_MODULE_5__.isBlobURL)(url) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.Fragment, {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("button", {
+        }), url && !(0,_wordpress_blob__WEBPACK_IMPORTED_MODULE_5__.isBlobURL)(url) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.Fragment, {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("button", {
             className: "block-course-setting-btn",
             onClick: onGetBackMainAltText,
             disabled: !imageObject?.alt_text ? true : false,
             title: !imageObject?.alt_text ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Main alt text not found', _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain) : '',
             children: "Get Back Main Alt Text"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.TextareaControl, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.TextareaControl, {
             __nextHasNoMarginBottom: true,
             label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Image Alt', _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain),
             value: alt,
@@ -5650,15 +5813,15 @@ function Edit(props) {
           })]
         })]
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
       ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)(),
-      children: [url && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+      children: [url && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
         className: `wp-block-blocks-course-team-member-img${(0,_wordpress_blob__WEBPACK_IMPORTED_MODULE_5__.isBlobURL)(url) ? ' is-loading' : ''}`,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("img", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("img", {
           src: url,
           alt: alt
-        }), (0,_wordpress_blob__WEBPACK_IMPORTED_MODULE_5__.isBlobURL)(url) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.Spinner, {})]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.MediaPlaceholder, {
+        }), (0,_wordpress_blob__WEBPACK_IMPORTED_MODULE_5__.isBlobURL)(url) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.Spinner, {})]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.MediaPlaceholder, {
         icon: "admin-users",
         onSelect: onSelectImage,
         onSelectURL: onSelectURL,
@@ -5667,71 +5830,69 @@ function Edit(props) {
         allowedTypes: ['image'],
         disableMediaButtons: url,
         notices: noticeUI
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
         ref: titleRef,
         tagName: "h4",
         placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Member Name', _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain),
         value: name,
         onChange: onChangeName,
         allowedFormats: []
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
         tagName: "p",
         placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Member Bio', _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain),
         value: bio,
         onChange: onChangeBio,
         allowedFormats: []
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
         className: "wp-block-block-course-team-member-social-links",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("ul", {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_dnd_kit_core__WEBPACK_IMPORTED_MODULE_8__.DndContext, {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("ul", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_dnd_kit_core__WEBPACK_IMPORTED_MODULE_8__.DndContext, {
             sensors: sensors,
             onDragEnd: handleDragEnd,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_9__.SortableContext, {
+            modifiers: [_dnd_kit_modifiers__WEBPACK_IMPORTED_MODULE_10__.restrictToHorizontalAxis],
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_9__.SortableContext, {
               items: socialLinks.map(item => `${item.icon}-${item.link}`),
-              strategy: _dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_9__.verticalListSortingStrategy,
-              children: socialLinks.map(item => {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_sortable_item__WEBPACK_IMPORTED_MODULE_10__["default"], {
-                  id: `${item.icon}-${item.link}`
+              strategy: _dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_9__.horizontalListSortingStrategy,
+              children: socialLinks.map((item, index) => {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_sortable_item__WEBPACK_IMPORTED_MODULE_11__["default"], {
+                  id: `${item.icon}-${item.link}`,
+                  index: index,
+                  selectedLink: selectedLink,
+                  setSelectedLink: setSelectedLink,
+                  icon: item.icon
                 }, `${item.icon}-${item.link}`);
               })
             })
-          }), socialLinks.map((item, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("li", {
-            className: selectedLink === index ? 'is-selected' : null,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("button", {
-              "aria-label": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Edit Social Link', _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain),
-              onClick: () => setSelectedLink(index),
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.Icon, {
-                icon: item.icon
-              })
-            })
-          }, index)), isSelected && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("li", {
+          }), isSelected && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("li", {
             className: "wp-block-block-course-team-member-add-icon-li",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.Tooltip, {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.Tooltip, {
               text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Add Social Link', _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain),
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("button", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("button", {
                 "aria-label": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Add Social Link', _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain),
                 onClick: addNewSocialItem,
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.Icon, {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.Icon, {
                   icon: "plus"
                 })
               })
             })
           })]
-        }), selectedLink !== undefined && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+        }), selectedLink !== undefined && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
           className: "wp-block-block-course-team-member-link-form",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.TextControl, {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.TextControl, {
+            __nextHasNoMarginBottom: true,
             label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Icon', _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain),
             value: socialLinks[selectedLink].icon,
             onChange: icon => {
               updateSocialItem('icon', icon);
             }
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.TextControl, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.TextControl, {
+            __nextHasNoMarginBottom: true,
             label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('URL', _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain),
             value: socialLinks[selectedLink].link,
             onChange: link => {
               updateSocialItem('link', link);
             }
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.Button, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.Button, {
             isDestructive: true,
             onClick: removeSocialItem,
             children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Remove Link', _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain)
@@ -5905,10 +6066,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @dnd-kit/sortable */ "./node_modules/@dnd-kit/sortable/dist/sortable.esm.js");
 /* harmony import */ var _dnd_kit_utilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @dnd-kit/utilities */ "./node_modules/@dnd-kit/utilities/dist/utilities.esm.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../block.json */ "./src/block.json");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__);
 
 // eslint-disable-next-line
+
+
+
 
 
 function SortableItem(props) {
@@ -5925,12 +6094,19 @@ function SortableItem(props) {
     transform: _dnd_kit_utilities__WEBPACK_IMPORTED_MODULE_1__.CSS.Transform.toString(transform),
     transition
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
     ref: setNodeRef,
     style: style,
     ...attributes,
     ...listeners,
-    children: ["Item ", props.id]
+    className: props.selectedLink === props.index ? 'is-selected' : null,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+      "aria-label": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Edit Social Link', _block_json__WEBPACK_IMPORTED_MODULE_4__.textdomain),
+      onClick: () => props.setSelectedLink(props.index),
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Icon, {
+        icon: props.icon
+      })
+    })
   });
 }
 
