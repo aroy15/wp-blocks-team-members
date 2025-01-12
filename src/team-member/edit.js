@@ -26,6 +26,18 @@ import {
 	TextControl,
 } from '@wordpress/components';
 
+import {
+	DndContext,
+	useSensor,
+	useSensors,
+	PointerSensor,
+} from '@dnd-kit/core';
+import {
+	SortableContext,
+	verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import SortableItem from './sortable-item';
+
 function Edit( props ) {
 	const {
 		attributes,
@@ -40,6 +52,8 @@ function Edit( props ) {
 
 	const prevURL = usePrevious( url );
 	const prevIsSelected = usePrevious( isSelected );
+
+	const sensors = useSensors( useSensor( PointerSensor ) );
 
 	const titleRef = useRef();
 
@@ -148,6 +162,8 @@ function Edit( props ) {
 		} );
 		setSelectedLink();
 	};
+
+	const handleDragEnd = () => {};
 
 	// When page load it will check any url is Blob. if yes then it will remove that
 	useEffect( () => {
@@ -287,6 +303,26 @@ function Edit( props ) {
 				/>
 				<div className="wp-block-block-course-team-member-social-links">
 					<ul>
+						<DndContext
+							sensors={ sensors }
+							onDragEnd={ handleDragEnd }
+						>
+							<SortableContext
+								items={ socialLinks.map(
+									( item ) => `${ item.icon }-${ item.link }`
+								) }
+								strategy={ verticalListSortingStrategy }
+							>
+								{ socialLinks.map( ( item ) => {
+									return (
+										<SortableItem
+											key={ `${ item.icon }-${ item.link }` }
+											id={ `${ item.icon }-${ item.link }` }
+										/>
+									);
+								} ) }
+							</SortableContext>
+						</DndContext>
 						{ socialLinks.map( ( item, index ) => (
 							<li
 								key={ index }
