@@ -15,8 +15,7 @@
   "supports": {
     "html": false,
     "align": [
-      "wide",
-      "full"
+      "wide"
     ]
   },
   "textdomain": "team-members-block",
@@ -29,5 +28,50 @@
       "type": "number",
       "default": 2
     }
+  },
+  "example": {
+    "attributes": {
+      "columns": 2
+    },
+    "innerBlocks": [
+      {
+        "name": "block-course/team-member",
+        "attributes": {
+          "name": "John Doe",
+          "bio": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+          "url": "https://picsum.photos/id/237/200/300",
+          "socialLinks": [
+            {
+              "icon": "facebook"
+            },
+            {
+              "icon": "twitter"
+            },
+            {
+              "icon": "instagram"
+            }
+          ]
+        }
+      },
+      {
+        "name": "block-course/team-member",
+        "attributes": {
+          "name": "Hello Doe",
+          "bio": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+          "url": "https://picsum.photos/seed/picsum/200/300",
+          "socialLinks": [
+            {
+              "icon": "facebook"
+            },
+            {
+              "icon": "twitter"
+            },
+            {
+              "icon": "instagram"
+            }
+          ]
+        }
+      }
+    ]
   }
 }

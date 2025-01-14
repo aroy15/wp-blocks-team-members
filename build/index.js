@@ -5512,9 +5512,54 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_5__.name, {
+(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)('block-course/team-members-block', {
   edit: _edit__WEBPACK_IMPORTED_MODULE_3__["default"],
-  save: _save__WEBPACK_IMPORTED_MODULE_4__["default"]
+  save: _save__WEBPACK_IMPORTED_MODULE_4__["default"],
+  transforms: {
+    from: [{
+      type: 'block',
+      blocks: ['core/gallery'],
+      transform: ({
+        images = [],
+        columns
+      }) => {
+        const innerBlocks = images.map(({
+          url,
+          id,
+          alt
+        }) => {
+          return (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.createBlock)('block-course/team-member', {
+            alt,
+            id,
+            url
+          });
+        });
+        return (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_block_json__WEBPACK_IMPORTED_MODULE_5__.name, {
+          columns: columns || 2
+        }, innerBlocks);
+      }
+    }, {
+      type: 'block',
+      blocks: ['core/image'],
+      isMultiBlock: true,
+      transform: attributes => {
+        const innerBlocks = attributes.map(({
+          url,
+          id,
+          alt
+        }) => {
+          return (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.createBlock)('block-course/team-member', {
+            alt,
+            id,
+            url
+          });
+        });
+        return (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_block_json__WEBPACK_IMPORTED_MODULE_5__.name, {
+          columns: attributes.length > 3 ? 3 : attributes.length
+        }, innerBlocks);
+      }
+    }]
+  }
 });
 
 /***/ }),
@@ -5763,7 +5808,7 @@ function Edit(props) {
 
   // prevURL dependancy is applied to prevent focusing on the title after replaceing or removing the image. So the tittle will be focused only after uploading/inserting the image.
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    if (url && !prevURL) {
+    if (url && !prevURL && isSelected) {
       titleRef.current.focus();
     }
   }, [url, prevURL]);
@@ -5963,13 +6008,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     socialLinks: {
       type: 'array',
-      default: [{
-        link: 'https://facebook.com',
-        icon: 'facebook'
-      }, {
-        link: 'https://instagram.com',
-        icon: 'instagram'
-      }],
+      default: [],
       source: 'query',
       selector: '.wp-block-block-course-team-member-social-links ul li',
       query: {
@@ -6033,7 +6072,7 @@ function Save({
     }), bio && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText.Content, {
       tagName: "p",
       value: bio
-    }), socialLinks.length && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+    }), socialLinks.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: "wp-block-block-course-team-member-social-links",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("ul", {
         children: socialLinks.map((item, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
@@ -6252,7 +6291,7 @@ module.exports = window["wp"]["i18n"];
   \************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"block-course/team-members-block","version":"0.1.0","title":"Team Members Block","category":"media","icon":"groups","description":"A team members grid block.","keywords":["team","members","grid"],"supports":{"html":false,"align":["wide","full"]},"textdomain":"team-members-block","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js","attributes":{"columns":{"type":"number","default":2}}}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"block-course/team-members-block","version":"0.1.0","title":"Team Members Block","category":"media","icon":"groups","description":"A team members grid block.","keywords":["team","members","grid"],"supports":{"html":false,"align":["wide"]},"textdomain":"team-members-block","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js","attributes":{"columns":{"type":"number","default":2}},"example":{"attributes":{"columns":2},"innerBlocks":[{"name":"block-course/team-member","attributes":{"name":"John Doe","bio":"Lorem Ipsum is simply dummy text of the printing and typesetting industry.","url":"https://picsum.photos/id/237/200/300","socialLinks":[{"icon":"facebook"},{"icon":"twitter"},{"icon":"instagram"}]}},{"name":"block-course/team-member","attributes":{"name":"Hello Doe","bio":"Lorem Ipsum is simply dummy text of the printing and typesetting industry.","url":"https://picsum.photos/seed/picsum/200/300","socialLinks":[{"icon":"facebook"},{"icon":"twitter"},{"icon":"instagram"}]}}]}}');
 
 /***/ })
 

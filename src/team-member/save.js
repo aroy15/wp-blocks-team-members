@@ -11,7 +11,7 @@ export default function Save( { attributes } ) {
 			) }
 			{ name && <RichText.Content tagName="h4" value={ name } /> }
 			{ bio && <RichText.Content tagName="p" value={ bio } /> }
-			{ socialLinks.length && (
+			{ socialLinks.length > 0 && (
 				<div className="wp-block-block-course-team-member-social-links">
 					<ul>
 						{ socialLinks.map( ( item, index ) => (

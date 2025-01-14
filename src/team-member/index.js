@@ -42,16 +42,7 @@ registerBlockType( 'block-course/team-member', {
 		},
 		socialLinks: {
 			type: 'array',
-			default: [
-				{
-					link: 'https://facebook.com',
-					icon: 'facebook',
-				},
-				{
-					link: 'https://instagram.com',
-					icon: 'instagram',
-				},
-			],
+			default: [],
 			source: 'query',
 			selector: '.wp-block-block-course-team-member-social-links ul li',
 			query: {

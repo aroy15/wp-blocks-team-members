@@ -208,7 +208,7 @@ function Edit( props ) {
 
 	// prevURL dependancy is applied to prevent focusing on the title after replaceing or removing the image. So the tittle will be focused only after uploading/inserting the image.
 	useEffect( () => {
-		if ( url && ! prevURL ) {
+		if ( url && ! prevURL && isSelected ) {
 			titleRef.current.focus();
 		}
 	}, [ url, prevURL ] );
